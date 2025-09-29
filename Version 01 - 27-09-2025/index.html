@@ -1,0 +1,1107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theatre ERP — Emerald + Gold (2025) 🎭</title>
+<meta name="theme-color" content="#0b8457">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.9.0/tabler-icons.min.css">
+<style>
+/* ---------- DESIGN TOKENS ---------- */
+:root{
+  --bg:#ffffff; --ink:#0F172A; --muted:#475569;
+  --card:#fafaf9; --line:#e7e5e4;
+  --emerald:#059669; --emerald-700:#047857;
+  --gold:#D97706; --gold-700:#B45309;
+  --chip:#fef3c7; --chip-line:#f59e0b;
+  --radius:14px; --shadow:0 8px 30px rgba(0,0,0,.08);
+  --trans:.25s ease;
+}
+[data-theme="dark"]{
+  --bg:#0f172a; --ink:#f1f5f9; --muted:#94a3b8;
+  --card:#1e293b; --line:#334155;
+}
+/* ---------- RESET ---------- */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink);line-height:1.45}
+a{color:inherit;text-decoration:none}
+/* ---------- LAYOUT ---------- */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{border-right:1px solid var(--line);background:linear-gradient(180deg,#fff 50%,#fbfaf7 120%);display:flex;flex-direction:column}
+.brand{display:flex;gap:10px;align-items:center;padding:18px 16px;border-bottom:1px solid var(--line)}
+.logo{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--emerald),var(--gold));color:white;font-weight:800;font-size:20px}
+.nav{flex:1;padding:10px;overflow:auto}
+.nav .section{margin:18px 12px 6px;font-weight:800;color:var(--gold-700);text-transform:uppercase;font-size:11px;letter-spacing:.5px}
+.nav button{display:flex;gap:10px;align-items:center;width:100%;border:0;background:transparent;padding:10px 12px;border-radius:10px;color:var(--muted);cursor:pointer;transition:var(--trans)}
+.nav button:hover,.nav button.active{background:var(--card);color:var(--ink)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;backdrop-filter:blur(8px)}
+.title{font-weight:900;font-size:18px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer;transition:var(--trans)}
+.btn.primary{background:linear-gradient(135deg,var(--emerald),var(--gold));border:0;color:#fff}
+.btn.small{padding:6px 10px;border-radius:8px;font-size:13px}
+.content{padding:20px;display:grid;gap:16px}
+.grid{display:grid;gap:16px}
+.grid.cols-2{grid-template-columns:1fr 1fr}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:1100px){.app{grid-template-columns:1fr}.side{position:sticky;top:0;z-index:10}.grid.cols-2,.grid.cols-3{grid-template-columns:1fr}}
+/* ---------- CARDS ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:var(--trans)}
+.card:hover{transform:translateY(-2px)}
+.card .topbar{padding:14px 16px;border-bottom:1px solid var(--line);font-weight:800}
+.card .sub{color:var(--muted);font-size:12px;margin-top:4px}
+.card .body{padding:14px 16px}
+.kpi{display:grid;gap:6px}
+.kpi h2{margin:0;font-size:28px}
+.money.green{color:#065f46;font-weight:800}
+.money.red{color:#b91c1c;font-weight:800}
+.hr{height:1px;background:var(--line);margin:14px 0}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--chip-line);padding:6px 10px;border-radius:999px;font-weight:700}
+/* ---------- TABLES ---------- */
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+th{background:#f8fafc;font-weight:800;color:#0f172a}
+tr:hover td{background:#fdfcf8}
+.search{display:flex;gap:8px}
+.field{display:grid;gap:4px}
+.field label{font-size:12px;font-weight:700;color:var(--muted)}
+.input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;transition:var(--trans)}
+.input:focus,select:focus,textarea:focus{outline:none;border-color:var(--emerald)}
+.grid-form{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+.grid-form.three{grid-template-columns:repeat(3,1fr)}
+.grid-form.four{grid-template-columns:repeat(4,1fr)}
+/* ---------- MODAL + TOAST ---------- */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;z-index:100}
+.modal.show{display:flex}
+.panel{width:min(780px,90vw);background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.panel .head{padding:12px 14px;font-weight:900;background:linear-gradient(135deg,var(--emerald),var(--gold));color:#fff}
+.panel .body{padding:14px}
+.toast{position:fixed;right:12px;bottom:12px;display:grid;gap:8px;z-index:200}
+.t{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow);animation:toast-in .3s ease}
+.t.ok{border-color:#bbf7d0;background:#f0fdf4}
+.t.err{border-color:#fecaca;background:#fee2e2}
+@keyframes toast-in{from{transform:translateY(20px);opacity:0}}
+/* ---------- TICKET CARD ---------- */
+.ticket-card{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:12px;border:1px dashed var(--emerald);border-radius:var(--radius);background:linear-gradient(135deg,#fff 50%,#ecfdf5 120%);margin-bottom:12px}
+.ticket-card .qr{place-self:center;font-size:40px;color:var(--emerald)}
+/* ---------- DARK MODE TOGGLE ---------- */
+.theme-toggle{position:fixed;bottom:20px;right:20px;z-index:50;background:var(--emerald);color:#fff;border:0;border-radius:50%;width:44px;height:44px;display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brand">
+      <div class="logo">🎭</div>
+      <div>
+        <div style="font-weight:900">Theatre ERP</div>
+        <div class="muted" style="font-size:12px">Premium • Emerald+Gold</div>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="section">Overview</div>
+      <button type="button" data-route="dashboard" class="active"><i class="ti ti-layout-dashboard"></i> Dashboard</button>
+
+      <div class="section">Core</div>
+      <button type="button" data-route="productions"><i class="ti ti-clapboard"></i> Productions</button>
+      <button type="button" data-route="events"><i class="ti ti-calendar-event"></i> Events</button>
+      <button type="button" data-route="volunteers"><i class="ti ti-users"></i> Volunteers</button>
+
+      <div class="section">Finance</div>
+      <button type="button" data-route="income"><i class="ti ti-cash"></i> Income</button>
+      <button type="button" data-route="expenses"><i class="ti ti-receipt-2"></i> Expenses</button>
+      <button type="button" data-route="budgets"><i class="ti ti-chart-pie"></i> Budgets</button>
+      <button type="button" data-route="accounts"><i class="ti ti-rows"></i> Chart of Accounts</button>
+
+      <div class="section">Reports</div>
+      <button type="button" data-route="pnl"><i class="ti ti-report"></i> Profit & Loss</button>
+      <button type="button" data-route="balance"><i class="ti ti-scale"></i> Balance Sheet</button>
+      <button type="button" data-route="bva"><i class="ti ti-arrows-double-se2-nw"></i> Budget vs Actual</button>
+      <button type="button" data-route="ibp"><i class="ti ti-graph"></i> Income by Production</button>
+
+      <div class="section">Admin</div>
+      <button type="button" data-route="config"><i class="ti ti-settings"></i> Config (Categories)</button>
+      <button type="button" data-route="rates"><i class="ti ti-pig-money"></i> Rates & Bank Details</button>
+      <button type="button" data-route="maintenance"><i class="ti ti-database-x"></i> Maintenance</button>
+
+      <!-- NEW TICKET BUTTON -->
+      <div class="section">Box-Office</div>
+      <button type="button" data-route="sellTicket" style="background:var(--gold);color:#fff;border:0"><i class="ti ti-ticket"></i> Sell Ticket</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+    <div class="top">
+      <div class="title" id="pageTitle">Dashboard</div>
+      <div class="actions">
+        <button class="btn small" id="exportFull"><i class="ti ti-archive"></i> Backup All → Zip</button>
+        <label class="btn small">
+          <i class="ti ti-upload"></i> Restore
+          <input id="restore" type="file" accept="application/json" hidden>
+        </label>
+        <button class="btn small warn" id="seed"><i class="ti ti-sparkles"></i> Seed demo</button>
+      </div>
+    </div>
+    <div class="content" id="view"></div>
+  </main>
+</div>
+
+<!-- Modal + Toast -->
+<div class="modal" id="modal">
+  <div class="panel">
+    <div class="head"><span id="modalTitle">New</span></div>
+    <div class="body">
+      <form id="modalForm" class="grid-form"></form>
+      <div class="grid" style="grid-template-columns:auto auto;justify-content:end">
+        <button type="button" class="btn" id="modalCancel">Cancel</button>
+        <button type="button" class="btn primary" id="modalSave">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- Dark-mode toggle -->
+<button class="theme-toggle" id="themeToggle" title="Dark mode"><i class="ti ti-moon"></i></button>
+
+<!-- libs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js" crossorigin></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/customParseFormat.js"></script>
+<script>try{ if (window.dayjs && window.dayjs_plugin_customParseFormat) dayjs.extend(window.dayjs_plugin_customParseFormat); }catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<!-- Export helpers -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<script>
+/* =========================
+   Storage + Defaults
+   ========================= */
+function makeStore(){
+  if (window.localforage){
+    try{ return window.localforage.createInstance({name:"theatre-erp"}); }catch(e){}
+  }
+  const prefix="theatre-erp:";
+  return {
+    async getItem(k){ try{ return JSON.parse(localStorage.getItem(prefix+k)) }catch(e){ return null } },
+    async setItem(k,v){ localStorage.setItem(prefix+k, JSON.stringify(v)); },
+    async removeItem(k){ localStorage.removeItem(prefix+k); }
+  };
+}
+const db = makeStore();
+
+const DEFAULTS = {
+  config: {
+    incomeCats:["Sponsorships","Box Office Sales","Grants","Donations","Merchandise Sales","Other Income"],
+    expenseCats:["Talent Fees","Venue Rental","Production Costs","Marketing","Staffing","Utilities","Other Expenses"],
+    budgetCats:["Income","Venue","Marketing","Talent","Production","Staffing","Utilities","Insurance","Other"],
+    paymentMethods:["Cash","Bank Transfer","Credit Card","Cheque","Online"],
+    eventKinds:["Rehearsal","Performance","Meeting"]
+  },
+  accounts:[
+    {code:"1000", name:"Bank", type:"Asset", parent:""},
+    {code:"1100", name:"Cash on Hand", type:"Asset", parent:"1000"},
+    {code:"4000", name:"Ticket Revenue", type:"Revenue", parent:""},
+    {code:"5000", name:"Venue Expense", type:"Expense", parent:""}
+  ],
+  productions:[], events:[], volunteers:[], budgets:[], income:[], expenses:[],
+  rates:{tax_rate_percent:0}, bank:[], tickets:[]
+};
+
+async function ensureDefaults(){
+  for (const k of Object.keys(DEFAULTS)) {
+    const v = await db.getItem(k);
+    if (v == null) await db.setItem(k, JSON.parse(JSON.stringify(DEFAULTS[k])));
+  }
+}
+async function read(k){
+  const v = await db.getItem(k);
+  if (v == null){
+    const def = JSON.parse(JSON.stringify(DEFAULTS[k]));
+    await db.setItem(k, def);
+    return def;
+  }
+  return v;
+}
+async function write(k,v){ await db.setItem(k,v); }
+async function resetAll(){ for(const k of Object.keys(DEFAULTS)) await write(k, JSON.parse(JSON.stringify(DEFAULTS[k]))); }
+
+const PKR = n => "PKR " + (Number(n||0)).toLocaleString();
+const sum = arr => arr.reduce((s,n)=>s+Number(n||0),0);
+
+/* =========================
+   Router
+   ========================= */
+const view = document.getElementById("view");
+const pageTitle = document.getElementById("pageTitle");
+const routes = {};
+
+document.querySelectorAll(".nav button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    const route=b.dataset.route;
+    pageTitle.textContent=b.textContent.trim();
+    history.replaceState({}, "", "#"+route);
+    if (routes[route] && typeof routes[route]==="function"){
+      Promise.resolve(routes[route]()).catch(err=>{ console.error(err); toast("Error opening "+route,"err"); });
+    } else {
+      toast("Section not ready: "+route,"err");
+    }
+  });
+});
+
+window.addEventListener("load", async ()=>{
+  try{ await ensureDefaults(); }catch(e){ console.error(e); }
+  if (!location.hash) location.hash = "#dashboard";
+  const btn = document.querySelector(`.nav button[data-route="${location.hash.slice(1)}"]`)
+         || document.querySelector(`.nav button[data-route="dashboard"]`);
+  btn.click();
+});
+
+/* =========================
+   Toast
+   ========================= */
+const toastBox=document.getElementById("toast");
+function toast(msg,type="ok"){
+  const d=document.createElement("div");
+  d.className="t "+(type==="ok"?"ok":"err");
+  d.textContent=msg;
+  toastBox.appendChild(d);
+  setTimeout(()=>d.remove(),3200);
+}
+
+/* =========================
+   Modal
+   ========================= */
+const modal=document.getElementById("modal");
+const modalForm=document.getElementById("modalForm");
+const modalTitle=document.getElementById("modalTitle");
+const btnCancel=document.getElementById("modalCancel");
+const btnSave=document.getElementById("modalSave");
+let modalSubmitHandler=null;
+
+btnCancel.onclick = ()=> modal.classList.remove("show");
+modalForm.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(modalForm).entries());
+  if (modalSubmitHandler) await modalSubmitHandler(data);
+});
+btnSave.addEventListener("click", async (e)=>{
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(modalForm).entries());
+  if (modalSubmitHandler) await modalSubmitHandler(data);
+});
+function openModal(title, schema, data={}, onSubmit){
+  modalTitle.textContent=title;
+  modalForm.innerHTML="";
+  modalForm.className="grid-form"+(schema.columns?(" "+schema.columns):"");
+  for(const f of schema.fields){
+    const wrap=document.createElement("div");wrap.className="field";
+    const id="f_"+f.name; wrap.innerHTML=`<label for="${id}">${f.label}${f.required?" *":""}</label>`;
+    let input;
+    if(f.type==="select"){
+      input=document.createElement("select");
+      (f.options||[]).forEach(o=>{const opt=document.createElement("option");opt.value=o;opt.textContent=o;input.appendChild(opt);});
+    }else if(f.type==="textarea"){
+      input=document.createElement("textarea");input.rows=3;
+    }else{
+      input=document.createElement("input");input.type=f.type||"text";
+    }
+    input.id=id; input.name=f.name; input.className="input";
+    input.value = data[f.name] ?? f.default ?? "";
+    if(f.required) input.required=true;
+    wrap.appendChild(input); modalForm.appendChild(wrap);
+  }
+  modalSubmitHandler = async (formData)=>{
+    try{ await onSubmit(formData); modal.classList.remove("show"); }
+    catch(err){ console.error(err); toast("Save failed","err"); }
+  };
+  modal.classList.add("show");
+}
+
+/* =========================
+   Dashboard
+   ========================= */
+async function renderAnalysis(listEl, rows, red=false){
+  const total=sum(rows.map(r=>r.amount));
+  rows.sort((a,b)=>b.amount-a.amount);
+  listEl.innerHTML = rows.map(r=>{
+    const pct = total? (r.amount*100/total):0;
+    return `<div class="item">
+      <div>
+        <div style="font-weight:700">${r.name||r.category||"—"}</div>
+        <div class="bar ${red?'red':''}"><span style="width:${pct.toFixed(1)}%"></span></div>
+      </div>
+      <div class="right">
+        <div class="money ${red?'red':'green'}" style="font-weight:800">${PKR(r.amount)}</div>
+        <div class="pct">${pct.toFixed(1)}%</div>
+      </div>
+    </div>`;
+  }).join("") || '<div class="muted">No data</div>';
+}
+/* ----------------------------------------------------------
+   NEW DASHBOARD – Income vs Expense cards in ONE row
+---------------------------------------------------------- */
+routes.dashboard = async ()=>{
+  const [income, expenses, tickets] = await Promise.all([read("income"), read("expenses"), read("tickets")]);
+  const tInc = sum(income.map(r=>r.amount))  + sum(tickets.filter(t=>!t.cancelled).map(t=>t.total));
+  const tExp = sum(expenses.map(r=>r.amount));
+  const profit = tInc - tExp;
+  const margin = tInc ? (profit*100/tInc) : 0;
+
+  view.innerHTML = `
+    <!-- TOP SUMMARY CARD -->
+    <section class="card">
+      <div class="topbar">
+        <div style="font-weight:800">Net Profit Summary</div>
+        <div class="sub">Bottom line financial performance</div>
+      </div>
+      <div class="body">
+        <div class="grid cols-2">
+          <div class="kpi"><div class="muted">Total Income</div><h2 class="money green">${PKR(tInc)}</h2></div>
+          <div class="kpi"><div class="muted">Total Expenses</div><h2 class="money red">- ${PKR(tExp)}</h2></div>
+        </div>
+        <div class="hr"></div>
+        <div class="grid cols-3">
+          <div class="kpi" style="grid-column:1/3">
+            <div style="font-weight:900;font-size:22px">Net Profit</div>
+            <div class="money ${profit>=0?'green':'red'}" style="font-size:22px">${PKR(profit)}</div>
+          </div>
+          <div class="kpi" style="text-align:right">
+            <div class="muted">Profit Margin</div>
+            <div class="pill" id="profitPill">${margin.toFixed(1)}%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INCOME & EXPENSE CARDS – HORIZONTAL ROW -->
+    <section class="grid cols-2">
+      <div class="card">
+        <div class="topbar"><div style="font-weight:800">Income Analysis</div><div class="sub">Revenue composition</div></div>
+        <div class="body" id="incomeList"></div>
+      </div>
+      <div class="card">
+        <div class="topbar"><div style="font-weight:800">Expense Analysis</div><div class="sub">Cost composition</div></div>
+        <div class="body" id="expenseList"></div>
+      </div>
+    </section>
+
+    <!-- TICKET MINI-DASHBOARD -->
+    <section class="card">
+      <div class="topbar"><i class="ti ti-ticket"></i> Ticket Dashboard</div>
+      <div class="body grid cols-3">
+        <div class="kpi"><div class="muted">Tickets Sold</div><h2>${tickets.filter(t=>!t.cancelled).length}</h2></div>
+        <div class="kpi"><div class="muted">Revenue</div><h2 class="money green">${PKR(sum(tickets.filter(t=>!t.cancelled).map(t=>t.total)))}</h2></div>
+        <div class="kpi"><div class="muted">Unsold Inventory</div><h2>${300 - tickets.filter(t=>!t.cancelled).reduce((a,t)=>a+(t.qty||1),0)}</h2></div>
+      </div>
+    </section>
+  `;
+  const pill=document.getElementById("profitPill");
+  pill.style.background = profit>=0 ? "rgba(16,185,129,.12)" : "rgba(239,68,68,.12)";
+  pill.style.borderColor = profit>=0 ? "#86efac" : "#fecaca";
+  pill.style.color = profit>=0 ? "#065f46" : "#991b1b";
+
+  const group = rows=>{
+    const m={}; rows.forEach(r=>{const k=r.category||"(Unassigned)"; m[k]=(m[k]||0)+Number(r.amount||0);});
+    return Object.entries(m).map(([name,amount])=>({name,amount}));
+  };
+  await renderAnalysis(document.getElementById("incomeList"), group(income));
+  await renderAnalysis(document.getElementById("expenseList"), group(expenses), true);
+};
+
+/* =========================
+   Generic Table View
+   ========================= */
+function tableView({title, icon, cols, rows, onAdd, onEdit, onDelete}){
+  view.innerHTML = `
+  <div class="card">
+    <div class="topbar"><i class="ti ${icon||'ti-table'}"></i> ${title}</div>
+    <div class="body">
+      <div class="grid" style="grid-template-columns:1fr auto;align-items:center;margin-bottom:8px">
+        <div class="search"><input class="input" id="search" placeholder="Search..."></div>
+        <button class="btn primary" id="addBtn"><i class="ti ti-plus"></i> Add</button>
+      </div>
+      <div style="overflow:auto">
+        <table>
+          <thead><tr>${cols.map(c=>`<th>${c.label}</th>`).join("")}<th></th></tr></thead>
+          <tbody id="tbody">${rows.map(r=>`
+            <tr>
+              ${cols.map(c=>`<td>${c.format?c.format(r[c.key], r):(r[c.key]??"")}</td>`).join("")}
+              <td style="white-space:nowrap">
+                <button class="btn small" data-edit="${r._id}"><i class="ti ti-pencil"></i></button>
+                <button class="btn small dang" data-del="${r._id}"><i class="ti ti-trash"></i></button>
+              </td>
+            </tr>`).join("")}</tbody>
+        </table>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById("addBtn").onclick=onAdd;
+  document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>onEdit(b.dataset.edit));
+  document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>onDelete(b.dataset.del));
+  const s=document.getElementById("search");
+  if(s) s.addEventListener("input", ()=> {
+    const q=s.value.toLowerCase();
+    document.querySelectorAll("#tbody tr").forEach(tr=>{
+      tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
+}
+
+/* =========================
+   Modules (CRUD)
+   ========================= */
+const labelize = k => k.replace(/([A-Z])/g,' $1').replace(/^\w/,s=>s.toUpperCase());
+
+routes.config = async ()=>{
+  const cfg = await read("config");
+  const section = (key, label)=>`
+    <div class="card"><div class="topbar"><i class="ti ti-settings"></i> ${label}</div>
+      <div class="body">
+        <div class="grid" style="grid-template-columns:1fr auto">
+          <input class="input" id="add_${key}" placeholder="Add new ${label}...">
+          <button class="btn" data-add="${key}"><i class="ti ti-plus"></i> Add</button>
+        </div>
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:10px" id="chips_${key}">
+          ${(cfg[key]||[]).map(v=>`<span class="pill">${v} <a href="#" data-rm="${key}" data-v="${v}"><i class="ti ti-x"></i></a></span>`).join("")}
+        </div>
+      </div></div>`;
+  view.innerHTML = `<div class="grid cols-2">
+      ${section("incomeCats","Income Categories")}
+      ${section("expenseCats","Expense Categories")}
+      ${section("budgetCats","Budget Categories")}
+      ${section("paymentMethods","Payment Methods")}
+      ${section("eventKinds","Event Kinds")}
+    </div>`;
+  view.querySelectorAll("[data-add]").forEach(btn=>{
+    btn.onclick=async()=>{
+      const key=btn.dataset.add; const val=(document.getElementById("add_"+key).value||"").trim();
+      if(!val) return;
+      const c=await read("config"); if(!c[key].includes(val)) c[key].push(val);
+      await write("config", c); toast("Added to "+labelize(key)); routes.config();
+    };
+  });
+  view.querySelectorAll("[data-rm]").forEach(a=>{
+    a.onclick=async(e)=>{e.preventDefault(); const key=a.dataset.rm, v=a.dataset.v;
+      const c=await read("config"); c[key]=c[key].filter(x=>x!==v); await write("config", c);
+      toast("Removed from "+labelize(key)); routes.config();
+    };
+  });
+};
+
+routes.productions = async ()=>{
+  const rows = (await read("productions")).map(p=>({...p,_id:String(p.id)}));
+  tableView({
+    title:"Productions", icon:"ti-clapboard",
+    cols:[{key:"title",label:"Title"},{key:"open",label:"Open"},{key:"close",label:"Close"},{key:"notes",label:"Notes"}],
+    rows,
+    onAdd: ()=> openModal("Add Production",
+      {columns:"two", fields:[
+        {name:"title",label:"Title",required:true},
+        {name:"open",label:"Open Date",type:"date"},
+        {name:"close",label:"Close Date",type:"date"},
+        {name:"notes",label:"Notes",type:"textarea"}
+      ]},{}, async data=>{
+        const list=await read("productions"); const id=(list.at(-1)?.id||0)+1; list.push({id,...data});
+        await write("productions",list); toast("Production added"); routes.productions();
+      }),
+    onEdit: async id=>{
+      const list=await read("productions"); const item=list.find(x=>String(x.id)===String(id));
+      openModal("Edit Production",
+        {columns:"two", fields:[
+          {name:"title",label:"Title",required:true},
+          {name:"open",label:"Open Date",type:"date"},
+          {name:"close",label:"Close Date",type:"date"},
+          {name:"notes",label:"Notes",type:"textarea"}
+        ]}, item, async data=>{
+          Object.assign(item,data); await write("productions",list);
+          toast("Updated"); routes.productions();
+        });
+    },
+    onDelete: async id=>{
+      if(!confirm("Delete this production?")) return;
+      const list=await read("productions"); await write("productions", list.filter(x=>String(x.id)!==String(id)));
+      toast("Deleted"); routes.productions();
+    }
+  });
+};
+
+routes.events = async ()=>{
+  const [events, cfg, prods] = await Promise.all([read("events"), read("config"), read("productions")]);
+  const rows = events.map(e=>({...e,_id:String(e.id)}));
+  tableView({
+    title:"Events", icon:"ti-calendar-event",
+    cols:[{key:"production",label:"Production"},{key:"kind",label:"Kind"},{key:"start",label:"Start"},{key:"end",label:"End"},{key:"venue",label:"Venue"}],
+    rows,
+    onAdd: ()=> openModal("Add Event",
+      {columns:"two", fields:[
+        {name:"production",label:"Production",type:"select",options:prods.map(p=>p.title)},
+        {name:"kind",label:"Kind",type:"select",options:cfg.eventKinds},
+        {name:"start",label:"Start",type:"datetime-local"},
+        {name:"end",label:"End",type:"datetime-local"},
+        {name:"venue",label:"Venue"},
+        {name:"notes",label:"Notes",type:"textarea"}
+      ]}, {}, async data=>{
+        const list=await read("events"); const id=(list.at(-1)?.id||0)+1; list.push({id,...data});
+        await write("events",list); toast("Event added"); routes.events();
+      }),
+    onEdit: async id=>{
+      const list=await read("events"); const item=list.find(x=>String(x.id)===String(id));
+      openModal("Edit Event",
+        {columns:"two", fields:[
+          {name:"production",label:"Production",type:"select",options:prods.map(p=>p.title)},
+          {name:"kind",label:"Kind",type:"select",options:cfg.eventKinds},
+          {name:"start",label:"Start",type:"datetime-local"},
+          {name:"end",label:"End",type:"datetime-local"},
+          {name:"venue",label:"Venue"},
+          {name:"notes",label:"Notes",type:"textarea"}
+        ]}, item, async data=>{
+          Object.assign(item,data); await write("events",list);
+          toast("Updated"); routes.events();
+        });
+    },
+    onDelete: async id=>{
+      if(!confirm("Delete this event?")) return;
+      const list=await read("events"); await write("events", list.filter(x=>String(x.id)!==String(id)));
+      toast("Deleted"); routes.events();
+    }
+  });
+};
+
+routes.volunteers = async ()=>{
+  const rows = (await read("volunteers")).map(v=>({...v,_id:String(v.id)}));
+  tableView({
+    title:"Volunteers", icon:"ti-users",
+    cols:[{key:"name",label:"Name"},{key:"email",label:"Email"},{key:"phone",label:"Phone"},{key:"skills",label:"Skills"}],
+    rows,
+    onAdd: ()=> openModal("Add Volunteer",
+      {columns:"two", fields:[
+        {name:"name",label:"Name",required:true},
+        {name:"email",label:"Email",type:"email"},
+        {name:"phone",label:"Phone"},
+        {name:"skills",label:"Skills"},
+        {name:"notes",label:"Notes",type:"textarea"}
+      ]}, {}, async data=>{
+        const list=await read("volunteers"); const id=(list.at(-1)?.id||0)+1; list.push({id,...data});
+        await write("volunteers",list); toast("Volunteer added"); routes.volunteers();
+      }),
+    onEdit: async id=>{
+      const list=await read("volunteers"); const item=list.find(x=>String(x.id)===String(id));
+      openModal("Edit Volunteer",
+      {columns:"two", fields:[
+        {name:"name",label:"Name",required:true},
+        {name:"email",label:"Email",type:"email"},
+        {name:"phone",label:"Phone"},
+        {name:"skills",label:"Skills"},
+        {name:"notes",label:"Notes",type:"textarea"}
+      ]}, item, async data=>{
+        Object.assign(item,data); await write("volunteers",list);
+        toast("Updated"); routes.volunteers();
+      });
+    },
+    onDelete: async id=>{
+      if(!confirm("Delete this volunteer?")) return;
+      const list=await read("volunteers"); await write("volunteers", list.filter(x=>String(x.id)!==String(id)));
+      toast("Deleted"); routes.volunteers();
+    }
+  });
+};
+
+async function txnView(kind){
+  const [rows, cfg, prods] = await Promise.all([read(kind), read("config"), read("productions")]);
+  tableView({
+    title:kind==="income"?"Income":"Expenses",
+    icon:kind==="income"?"ti-cash":"ti-receipt-2",
+    cols:[
+      {key:"date",label:"Date"},
+      {key:"amount",label:"Amount",format:v=>PKR(v)},
+      {key:"category",label:"Category"},
+      {key:"production",label:"Production"},
+      {key:"method",label:"Method"},
+      {key:"memo",label:"Memo"}
+    ],
+    rows: rows.map((r,i)=>({...r,_id:String(i+1)})),
+    onAdd: ()=> openModal(`Add ${kind==="income"?"Income":"Expense"}`,
+      {columns:"three", fields:[
+        {name:"date",label:"Date",type:"date",required:true,default:window.dayjs?dayjs().format("YYYY-MM-DD"):""},
+        {name:"amount",label:"Amount",type:"number",required:true},
+        {name:"category",label:"Category",type:"select",options:kind==="income"?(cfg.incomeCats||[]):(cfg.expenseCats||[]),required:true},
+        {name:"production",label:"Production",type:"select",options:(prods||[]).map(p=>p.title)},
+        {name:"method",label:"Method",type:"select",options:cfg.paymentMethods||[]},
+        {name:"memo",label:"Memo"}
+      ]}, {}, async data=>{
+        const list=await read(kind); list.push(data); await write(kind,list);
+        toast("Saved"); txnView(kind);
+      }),
+    onEdit: async id=>{
+      const list=await read(kind); const idx=Number(id)-1; const item=list[idx];
+      openModal(`Edit ${kind==="income"?"Income":"Expense"}`,
+      {columns:"three", fields:[
+        {name:"date",label:"Date",type:"date",required:true},
+        {name:"amount",label:"Amount",type:"number",required:true},
+        {name:"category",label:"Category",type:"select",options:kind==="income"?(cfg.incomeCats||[]):(cfg.expenseCats||[]),required:true},
+        {name:"production",label:"Production",type:"select",options:(prods||[]).map(p=>p.title)},
+        {name:"method",label:"Method",type:"select",options:cfg.paymentMethods||[]},
+        {name:"memo",label:"Memo"}
+      ]}, item, async data=>{
+        list[idx]=data; await write(kind,list);
+        toast("Updated"); txnView(kind);
+      });
+    },
+    onDelete: async id=>{
+      if(!confirm("Delete this record?")) return;
+      const list=await read(kind); list.splice(Number(id)-1,1); await write(kind,list);
+      toast("Deleted"); txnView(kind);
+    }
+  });
+}
+routes.income = ()=>txnView("income");
+routes.expenses = ()=>txnView("expenses");
+
+routes.budgets = async ()=>{
+  const [buds, cfg, prods] = await Promise.all([read("budgets"), read("config"), read("productions")]);
+  tableView({
+    title:"Budgets", icon:"ti-chart-pie",
+    cols:[
+      {key:"production",label:"Production"},
+      {key:"category",label:"Category"},
+      {key:"amount",label:"Amount",format:v=>PKR(v)}
+    ],
+    rows: buds.map((b,i)=>({...b,_id:String(i+1)})),
+    onAdd: ()=> openModal("Add Budget Line",
+      {columns:"three", fields:[
+        {name:"production",label:"Production",type:"select",options:(prods||[]).map(p=>p.title),required:true},
+        {name:"category",label:"Category",type:"select",options:cfg.budgetCats||[],required:true},
+        {name:"amount",label:"Amount",type:"number",required:true}
+      ]},{}, async data=>{
+        const list=await read("budgets"); list.push(data); await write("budgets", list);
+        toast("Budget added"); routes.budgets();
+      }),
+    onEdit: async id=>{
+      const list=await read("budgets"); const idx=Number(id)-1; const item=list[idx];
+      openModal("Edit Budget Line",
+        {columns:"three", fields:[
+          {name:"production",label:"Production",type:"select",options:(prods||[]).map(p=>p.title),required:true},
+          {name:"category",label:"Category",type:"select",options:cfg.budgetCats||[],required:true},
+          {name:"amount",label:"Amount",type:"number",required:true}
+        ]}, item, async data=>{
+          list[idx]=data; await write("budgets",list);
+          toast("Updated"); routes.budgets();
+        });
+    },
+    onDelete: async id=>{
+      const list=await read("budgets"); list.splice(Number(id)-1,1); await write("budgets",list);
+      toast("Deleted"); routes.budgets();
+    }
+  });
+};
+
+routes.accounts = async ()=>{
+  const rows = await read("accounts");
+  tableView({
+    title:"Chart of Accounts", icon:"ti-rows",
+    cols:[{key:"code",label:"Code"},{key:"name",label:"Name"},{key:"type",label:"Type"},{key:"parent",label:"Parent Code"}],
+    rows: rows.map(r=>({...r,_id:r.code})),
+    onAdd: ()=> openModal("Add Account",
+      {columns:"two", fields:[
+        {name:"code",label:"Code",required:true},
+        {name:"name",label:"Name",required:true},
+        {name:"type",label:"Type"},
+        {name:"parent",label:"Parent Code"}
+      ]},{}, async data=>{
+        const list=await read("accounts");
+        if(list.some(a=>a.code===data.code)) return toast("Code exists","err");
+        list.push(data); await write("accounts",list);
+        toast("Account added"); routes.accounts();
+      }),
+    onEdit: async code=>{
+      const list=await read("accounts"); const item=list.find(a=>a.code===code);
+      openModal("Edit Account",
+      {columns:"two", fields:[
+        {name:"code",label:"Code",required:true},
+        {name:"name",label:"Name",required:true},
+        {name:"type",label:"Type"},
+        {name:"parent",label:"Parent Code"}
+      ]}, item, async data=>{
+        const idx=list.findIndex(a=>a.code===code); list[idx]=data; await write("accounts",list);
+        toast("Updated"); routes.accounts();
+      });
+    },
+    onDelete: async code=>{
+      if(!confirm("Delete this account?")) return;
+      const list=await read("accounts"); await write("accounts", list.filter(a=>a.code!==code));
+      toast("Deleted"); routes.accounts();
+    }
+  });
+};
+
+routes.rates = async ()=>{
+  const [rates, bank] = await Promise.all([read("rates"), read("bank")]);
+  view.innerHTML = `
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="topbar"><i class="ti ti-pig-money"></i> Rates</div>
+        <div class="body">
+          <div class="grid-form">
+            <div class="field"><label>Tax Rate (%)</label><input class="input" id="taxRate" type="number" value="${rates.tax_rate_percent||0}"></div>
+          </div>
+          <div style="text-align:right;margin-top:8px"><button class="btn primary" id="saveRates">Save</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="topbar"><i class="ti ti-building-bank"></i> Bank Details</div>
+        <div class="body">
+          <div class="grid-form">
+            <div class="field"><label>Account Name</label><input class="input" id="b_name" value="${bank[0]?.name||""}"></div>
+            <div class="field"><label>Bank</label><input class="input" id="b_bank" value="${bank[0]?.bank||""}"></div>
+            <div class="field"><label>Account #</label><input class="input" id="b_ac" value="${bank[0]?.account||""}"></div>
+            <div class="field"><label>IBAN</label><input class="input" id="b_iban" value="${bank[0]?.iban||""}"></div>
+            <div class="field"><label>SWIFT</label><input class="input" id="b_swift" value="${bank[0]?.swift||""}"></div>
+            <div class="field"><label>Notes</label><input class="input" id="b_notes" value="${bank[0]?.notes||""}"></div>
+          </div>
+          <div style="text-align:right;margin-top:8px"><button class="btn primary" id="saveBank">Save</button></div>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById("saveRates").onclick=async()=>{await write("rates",{tax_rate_percent:Number(document.getElementById("taxRate").value||0)});toast("Rates saved");};
+  document.getElementById("saveBank").onclick=async()=>{
+    await write("bank", [{
+      name:document.getElementById("b_name").value, bank:document.getElementById("b_bank").value,
+      account:document.getElementById("b_ac").value, iban:document.getElementById("b_iban").value,
+      swift:document.getElementById("b_swift").value, notes:document.getElementById("b_notes").value
+    }]); toast("Bank saved");
+  };
+};
+
+/* =========================
+   Reports
+   ========================= */
+routes.pnl = async ()=>{
+  const [income, expenses, tickets] = await Promise.all([read("income"), read("expenses"), read("tickets")]);
+  const inc = sum(income.map(r=>r.amount)) + sum(tickets.filter(t=>!t.cancelled).map(t=>t.total));
+  const exp=sum(expenses.map(r=>r.amount)), net=inc-exp;
+  view.innerHTML = `
+  <div class="grid cols-2">
+    <div class="card"><div class="topbar"><i class="ti ti-report"></i> Profit & Loss</div>
+      <div class="body">
+        <table><thead><tr><th>Section</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td>Income</td><td>${PKR(inc)}</td></tr>
+            <tr><td>Expenses</td><td>${PKR(exp)}</td></tr>
+            <tr><td><b>Net Profit</b></td><td><b>${PKR(net)}</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card"><div class="topbar"><i class="ti ti-chart-pie-2"></i> Mix</div>
+      <div class="body"><canvas id="pnlChart"></canvas><div id="pnlFallback" class="muted"></div></div>
+    </div>
+  </div>`;
+  if (window.Chart){
+    new Chart(document.getElementById("pnlChart"), {type:"doughnut",
+      data:{labels:["Income","Expenses"], datasets:[{data:[inc,exp], backgroundColor:["#059669","#D97706"]}]},
+      options:{plugins:{legend:{position:"bottom"}}}
+    });
+  } else {
+    document.getElementById("pnlFallback").textContent = "Chart unavailable (CDN blocked).";
+  }
+};
+
+routes.balance = async ()=>{
+  const [income, expenses, tickets] = await Promise.all([read("income"), read("expenses"), read("tickets")]);
+  const cash = sum(income.map(r=>r.amount)) + sum(tickets.filter(t=>!t.cancelled).map(t=>t.total)) - sum(expenses.map(r=>r.amount));
+  view.innerHTML = `
+    <div class="card"><div class="topbar"><i class="ti ti-scale"></i> Balance Sheet (simplified)</div>
+      <div class="body">
+        <div class="grid cols-3">
+          <div class="kpi"><div class="muted">Assets</div><h2>${PKR(cash)}</h2></div>
+          <div class="kpi"><div class="muted">Liabilities</div><h2>${PKR(0)}</h2></div>
+          <div class="kpi"><div class="muted">Equity</div><h2>${PKR(cash)}</h2></div>
+        </div>
+        <p class="muted">Extendable to full double-entry with AR/AP if you need it.</p>
+      </div>
+    </div>`;
+};
+
+routes.bva = async ()=>{
+  const [budgets, income, expenses] = await Promise.all([read("budgets"), read("income"), read("expenses")]);
+  const map = {};
+  budgets.forEach(b=>{const k=b.production+"||"+b.category; map[k]=(map[k]||{production:b.production,category:b.category,budget:0,actual:0}); map[k].budget+=Number(b.amount||0);});
+  const add = (rows, sign)=> rows.forEach(r=>{const k=(r.production||"")+"||"+(r.category||""); map[k]=(map[k]||{production:r.production||"",category:r.category||"",budget:0,actual:0}); map[k].actual+=sign*Number(r.amount||0);});
+  add(income,+1); add(expenses,-1);
+  const rows = Object.values(map).sort((a,b)=> (a.production||"").localeCompare(b.production||"") || (a.category||"").localeCompare(b.category||""));
+  view.innerHTML = `<div class="card"><div class="topbar"><i class="ti ti-arrows-double-se2-nw"></i> Budget vs Actual</div>
+  <div class="body">
+    <table><thead><tr><th>Production</th><th>Category</th><th>Budget</th><th>Actual (Net)</th><th>Variance</th></tr></thead>
+    <tbody>${rows.map(r=>`<tr>
+      <td>${r.production||""}</td><td>${r.category||""}</td>
+      <td>${PKR(r.budget)}</td><td>${PKR(r.actual)}</td>
+      <td>${PKR(r.actual - r.budget)}</td>
+    </tr>`).join("")}</tbody></table></div></div>`;
+};
+
+routes.ibp = async ()=>{
+  const income = await read("income");
+  const per = {}; income.forEach(r=>{const k=r.production||"(Unassigned)"; per[k]=(per[k]||0)+Number(r.amount||0);});
+  const labels=Object.keys(per), values=labels.map(k=>per[k]);
+  view.innerHTML = `<div class="grid cols-2">
+    <div class="card"><div class="topbar"><i class="ti ti-graph"></i> Income by Production</div><div class="body"><canvas id="ibp"></canvas><div id="ibpFallback" class="muted"></div></div></div>
+    <div class="card"><div class="topbar"><i class="ti ti-list-details"></i> Breakdown</div>
+      <div class="body">
+        <table><thead><tr><th>Production</th><th>Income</th></tr></thead>
+        <tbody>${labels.map((l,i)=>`<tr><td>${l}</td><td>${PKR(values[i])}</td></tr>`).join("")}</tbody></table>
+      </div></div></div>`;
+  if (window.Chart){
+    new Chart(document.getElementById("ibp"),{type:"bar",data:{labels,datasets:[{label:"Income",data:values,backgroundColor:"#059669"}]},options:{plugins:{legend:{display:false}}}});
+  } else {
+    document.getElementById("ibpFallback").textContent = "Chart unavailable (CDN blocked).";
+  }
+};
+
+/* =========================
+   Ticket Booking Module
+   ========================= */
+routes.sellTicket = async ()=>{
+  const [prods, cfg] = await Promise.all([read("productions"), read("config")]);
+  view.innerHTML = `
+  <div class="card">
+    <div class="topbar"><i class="ti ti-ticket"></i> Sell Ticket</div>
+    <div class="body">
+      <form id="ticketForm" class="grid-form three">
+        <div class="field"><label>Customer Name *</label><input class="input" name="customer" required></div>
+        <div class="field"><label>Phone</label><input class="input" name="phone"></div>
+        <div class="field"><label>Email</label><input class="input" name="email" type="email"></div>
+        <div class="field"><label>Production *</label><select class="input" name="production" required>${prods.map(p=>`<option>${p.title}</option>`).join("")}</select></div>
+        <div class="field"><label>Show Date *</label><input class="input" name="date" type="date" required></div>
+        <div class="field"><label>Show Time</label><input class="input" name="time" type="time"></div>
+        <div class="field"><label>Seats (comma sep)</label><input class="input" name="seats" placeholder="A1,A2,A3"></div>
+        <div class="field"><label>Qty *</label><input class="input" name="qty" type="number" min="1" value="1" required></div>
+        <div class="field"><label>Price per seat *</label><input class="input" name="price" type="number" min="0" required></div>
+        <div class="field"><label>Payment Method</label><select class="input" name="method">${cfg.paymentMethods.map(m=>`<option>${m}</option>`).join("")}</select></div>
+        <div class="field" style="grid-column:1/-1"><label>Notes</label><textarea class="input" name="notes" rows="2"></textarea></div>
+      </form>
+      <div class="grid" style="grid-template-columns:auto auto;justify-content:end;gap:8px;margin-top:12px">
+        <button type="button" class="btn" id="printTicket">Print Ticket</button>
+        <button type="button" class="btn primary" id="sellBtn">Sell & Save</button>
+      </div>
+      <div id="ticketPreview"></div>
+    </div>
+  </div>`;
+  const ticketForm = document.getElementById("ticketForm");
+  const sellBtn = document.getElementById("sellBtn");
+  const printTicket = document.getElementById("printTicket");
+  const preview = document.getElementById("ticketPreview");
+
+  function renderPreview(data){
+    const total = (data.qty||1) * (data.price||0);
+    preview.innerHTML = `
+    <div class="ticket-card">
+      <div class="qr"><i class="ti ti-ticket"></i></div>
+      <div>
+        <div style="font-weight:800">${data.production||""} – ${data.date||""} ${data.time||""}</div>
+        <div class="muted">Customer: ${data.customer||""} | Seats: ${data.seats||"NA"} | Qty: ${data.qty||""}</div>
+      </div>
+      <div class="money green" style="font-weight:800;font-size:18px">${PKR(total)}</div>
+    </div>`;
+  }
+  ticketForm.addEventListener("input", ()=> renderPreview(Object.fromEntries(new FormData(ticketForm).entries())));
+  renderPreview(Object.fromEntries(new FormData(ticketForm).entries()));
+
+  sellBtn.onclick = async ()=>{
+    if(!ticketForm.reportValidity()) return;
+    const data = Object.fromEntries(new FormData(ticketForm).entries());
+    data.total = (data.qty||1) * (data.price||0);
+    data.cancelled = false;
+    const list = await read("tickets");
+    list.push(data);
+    await write("tickets", list);
+    // auto-post to income
+    const inc = await read("income");
+    inc.push({date:data.date, amount:data.total, category:"Box Office Sales", production:data.production, method:data.method||"Cash", memo:`Ticket ${data.customer} ${data.seats}`});
+    await write("income", inc);
+    toast("Ticket sold & income posted");
+    ticketForm.reset();
+    renderPreview(Object.fromEntries(new FormData(ticketForm).entries()));
+  };
+  printTicket.onclick = ()=> window.print();
+};
+
+/* =========================
+   Maintenance + Restore + Seed
+   ========================= */
+routes.maintenance = async ()=>{
+  view.innerHTML = `<div class="card"><div class="topbar"><i class="ti ti-database-x"></i> Maintenance</div>
+    <div class="body">
+      <div class="grid cols-3">
+        <button class="btn dang" id="wipe"><i class="ti ti-eraser"></i> Wipe Sample Data</button>
+        <button class="btn warn" id="factory"><i class="ti ti-database-cog"></i> Reset to Factory</button>
+        <button class="btn" id="gotoDash"><i class="ti ti-home"></i> Back to Dashboard</button>
+      </div>
+    </div></div>`;
+  document.getElementById("wipe").onclick=async()=>{await write("income",[]);await write("expenses",[]);await write("productions",[]);await write("events",[]);await write("volunteers",[]);await write("budgets",[]);await write("tickets",[]);toast("Sample removed");routes.dashboard();};
+  document.getElementById("factory").onclick=async()=>{if(!confirm("Reset everything?"))return; await resetAll(); toast("Reset complete"); routes.dashboard();};
+  document.getElementById("gotoDash").onclick=routes.dashboard;
+};
+
+/* --- Restore JSON --- */
+document.getElementById("restore").onchange = async (e)=>{
+  const f=e.target.files[0]; if(!f) return; const data=JSON.parse(await f.text());
+  for(const k of Object.keys(DEFAULTS)) if(k in data) await write(k,data[k]); toast("Backup restored"); routes.dashboard();
+};
+
+/* --- Seed demo --- */
+document.getElementById("seed").onclick = async ()=>{
+  await write("productions", [{id:1,title:"Hamlet",open:"2025-10-01",close:"2025-11-15",notes:"Fall production"},{id:2,title:"Macbeth",open:"2025-12-01",close:"2026-01-10",notes:"Winter"}]);
+  await write("income", [
+    {date:"2025-10-05",amount:150000,category:"Sponsorships",production:"Hamlet",method:"Bank Transfer"},
+    {date:"2025-10-06",amount:125000,category:"Box Office Sales",production:"Hamlet",method:"Cash"},
+    {date:"2025-10-10",amount:100000,category:"Grants",production:"Hamlet"},
+    {date:"2025-10-12",amount:25000,category:"Donations"},
+    {date:"2025-10-13",amount:15000,category:"Merchandise Sales"},
+    {date:"2025-10-14",amount:5000,category:"Other Income"}
+  ]);
+  await write("expenses", [
+    {date:"2025-10-06",amount:120000,category:"Talent Fees",production:"Hamlet"},
+    {date:"2025-10-08",amount:85000,category:"Venue Rental",production:"Hamlet"},
+    {date:"2025-10-09",amount:65000,category:"Production Costs",production:"Hamlet"},
+    {date:"2025-10-10",amount:45000,category:"Marketing",production:"Hamlet"},
+    {date:"2025-10-12",amount:35000,category:"Staffing"},
+    {date:"2025-10-14",amount:15000,category:"Utilities"},
+    {date:"2025-10-15",amount:12000,category:"Other Expenses"}
+  ]);
+  await write("budgets", [
+    {production:"Hamlet",category:"Marketing",amount:20000},
+    {production:"Hamlet",category:"Venue",amount:90000},
+    {production:"Hamlet",category:"Talent",amount:130000},
+    {production:"Macbeth",category:"Production",amount:80000}
+  ]);
+  toast("Demo seeded"); routes.dashboard();
+};
+
+/* =========================
+   BACKUP ALL → ZIP
+   ========================= */
+function downloadBlob(filename, blob){
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();}, 0);
+}
+function arrayToCSV(arr){
+  if (!arr || !arr.length) return "";
+  const headers = [...new Set(arr.flatMap(o=>Object.keys(o)))];
+  const esc = v => {
+    if (v==null) return "";
+    const s=String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+  };
+  const lines = [headers.join(",")].concat(arr.map(row=>headers.map(h=>esc(row[h])).join(",")));
+  return lines.join("\n");
+}
+async function dumpAll(){
+  const dump={};
+  for(const k of Object.keys(DEFAULTS)) dump[k]=await read(k);
+  return dump;
+}
+function normalizeForSheet(k, v){
+  if (Array.isArray(v)) return v;
+  if (v && typeof v === "object"){
+    if (k==="config"){
+      return Object.entries(v).flatMap(([key, list])=> (list||[]).map(val=>({list:key, value:val})));
+    } else if (k==="rates"){ return [v]; }
+    else if (k==="bank"){ return v; }
+    else { return [v]; }
+  }
+  return [];
+}
+function buildExcelBlob(dump){
+  if (!window.XLSX) return null;
+  const wb = XLSX.utils.book_new();
+  for(const k of Object.keys(dump)){
+    const rows = normalizeForSheet(k, dump[k]);
+    const ws = XLSX.utils.json_to_sheet(rows || []);
+    const sheetName = (k || "Sheet").slice(0,31);
+    XLSX.utils.book_append_sheet(wb, ws, sheetName);
+  }
+  const wbout = XLSX.write(wb, {bookType:"xlsx", type:"array"});
+  return new Blob([wbout], {type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+}
+
+document.getElementById("exportFull").onclick = async ()=>{
+  const dump = await dumpAll();
+  if (!window.JSZip){
+    // Fallback: just JSON download
+    toast("ZIP library blocked; downloading JSON only","err");
+    const jsonBlob = new Blob([JSON.stringify(dump,null,2)],{type:"application/json"});
+    downloadBlob("Theatre_ERP_Backup.json", jsonBlob);
+    return;
+  }
+  try{
+    const zip = new JSZip();
+
+    // JSON
+    zip.file("Theatre_ERP_Backup.json", JSON.stringify(dump,null,2));
+
+    // Excel
+    const excelBlob = buildExcelBlob(dump);
+    if (excelBlob){
+      zip.file("Theatre_ERP.xlsx", excelBlob);
+    }
+
+    // CSVs
+    for(const k of Object.keys(dump)){
+      const rows = normalizeForSheet(k, dump[k]);
+      zip.file(`Theatre_${k}.csv`, arrayToCSV(rows));
+    }
+
+    const blob = await zip.generateAsync({type:"blob"});
+    downloadBlob("Theatre_ERP_Full_Backup.zip", blob);
+    toast("Full backup ZIP downloaded");
+  }catch(e){
+    console.error(e);
+    toast("Backup failed; trying JSON-only","err");
+    const jsonBlob = new Blob([JSON.stringify(dump,null,2)],{type:"application/json"});
+    downloadBlob("Theatre_ERP_Backup.json", jsonBlob);
+  }
+};
+
+/* =========================
+   Dark-mode toggle
+   ========================= */
+document.getElementById("themeToggle").onclick = ()=>{
+  const html = document.documentElement;
+  const isDark = html.getAttribute("data-theme") === "dark";
+  html.setAttribute("data-theme", isDark ? "light" : "dark");
+  document.getElementById("themeToggle").innerHTML = isDark ? '<i class="ti ti-moon"></i>' : '<i class="ti ti-sun"></i>';
+};
+
+/* =========================
+   Hot-keys
+   ========================= */
+document.addEventListener("keydown", e=>{
+  if (e.ctrlKey || e.metaKey){
+    switch(e.key){
+      case "n": // new
+        const addBtn = document.getElementById("addBtn");
+        if(addBtn){ addBtn.click(); e.preventDefault(); }
+        break;
+      case "s": // sell ticket
+        location.hash = "#sellTicket"; e.preventDefault();
+        break;
+      case "h": // home
+        location.hash = "#dashboard"; e.preventDefault();
+        break;
+    }
+  }
+});
+</script>
+</body>
+</html>
